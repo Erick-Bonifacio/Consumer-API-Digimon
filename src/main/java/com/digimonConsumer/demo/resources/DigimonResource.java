@@ -26,9 +26,15 @@ public class DigimonResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@GetMapping(value="/{name}")
+	@GetMapping(value="/name={name}")
 	public ResponseEntity<DigimonDto> findByName(@PathVariable String name){
 		Optional<DigimonDto> d = service.findByName(name);
 		return ResponseEntity.ok().body(d.get());
+	}
+	
+	@GetMapping(value="/level={level}")
+	public ResponseEntity<List<DigimonDto>> findBylevel(@PathVariable String level){
+		List<DigimonDto> d = service.findByLevel(level);
+		return ResponseEntity.ok().body(d);
 	}
 }

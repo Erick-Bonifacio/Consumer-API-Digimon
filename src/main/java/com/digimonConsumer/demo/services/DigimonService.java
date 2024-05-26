@@ -27,5 +27,10 @@ public class DigimonService {
         return repo.findOne(example);
     }
 	
-	
+	public List<DigimonDto> findByLevel(String level) {
+        DigimonDto digimonExample = new DigimonDto();
+        digimonExample.setLevel(level);
+        Example<DigimonDto> example = Example.of(digimonExample);
+        return repo.findAll(example);
+    }
 }
