@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.digimonConsumer.demo.entitiesDto.DigimonDto;
 import com.digimonConsumer.demo.repositories.DigimonRepository;
+import com.digimonConsumer.demo.services.exceptions.DigimonNotFoundException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class DigimonService {
@@ -24,13 +27,25 @@ public class DigimonService {
         DigimonDto digimonExample = new DigimonDto();
         digimonExample.setName(name);
         Example<DigimonDto> example = Example.of(digimonExample);
-        return repo.findOne(example);
+        Optional<DigimonDto> opt = repo.findOne(example);
+	    if(opt.isEmpty()) {
+	    	throw new DigimonNotFoundException(name);
+	    }
+	    else {
+        	return opt;
+        }
     }
 	
 	public List<DigimonDto> findByLevel(String level) {
         DigimonDto digimonExample = new DigimonDto();
         digimonExample.setLevel(level);
         Example<DigimonDto> example = Example.of(digimonExample);
-        return repo.findAll(example);
+        List<DigimonDto> list = repo.findAll(example);
+        if(list.isEmpty()) {
+        	throw new DigimonNotFoundException(level);
+        }
+        else {
+        	return list;
+        }
     }
 }
